@@ -1,0 +1,299 @@
+/*
+    css file for CoreData
+*/
+
+
+/* page structure */
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 100%;
+    line-height: 130%;
+}
+
+
+
+form, input, textarea, .no-line-height {
+    margin: 0;
+    line-height: normal;
+}
+
+a {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #3e4545;
+    background-color: inherit;
+}
+
+a:hover {
+    color: #109372;
+    text-decoration: none;
+}
+
+.serif {
+    font-family: georgia, serif;
+}
+
+.small, .smallred {
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 10px;
+    line-height: normal;
+}
+
+.red, .smallred {
+    color: #990000;
+}
+
+.plain {
+    font-weight: normal;
+    color: #3E4545;
+    background-color:
+    transparent;
+}
+
+h1, .heading {
+    font-weight: bold;
+    color: #3E4545;
+    font-size: 24px;
+    line-height: 130%;
+}
+
+h2, .subheading {
+    font-weight: bold;
+    color: #3E4545;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 1.2ex;
+    margin-bottom: 1ex;
+    line-height: 114%;
+}
+
+h3, .subsub {
+    font-weight: bold;
+    color: #3E4545;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.tt {
+    font-family: monaco, courier, monospace;
+}
+
+tt, code {
+    font-family: monaco, courier, monospace;
+    font-size: 13px;
+}
+
+pre {
+    font-family: monaco, courier, monospace;
+    font-size: 11px;
+    line-height: normal;
+}
+
+.code {
+    font-family: monaco, courier, monospace;
+    font-size: 11px;
+    line-height: normal;
+    border: 1px solid #ccc;
+    padding: 3 5 3 5;
+}
+
+/* common elements */
+
+div.form, div.content, div.site_content, div.file_content, div.queue_content {
+    margin-top: 10px;
+    padding: 3px 9px 5px 10px;
+    background-color: #fff;
+
+}
+
+p.prompt {
+    margin: 0;
+}
+
+textarea.SQLField {
+    border: 1px solid #ccc;
+    width: 100%;
+    height: 92pt;
+}
+
+.SQLField {
+    margin: 0;
+}
+
+.go_button {
+    margin: 3px 0 0px 0;
+    text-align: center;
+}
+
+.header {
+    background-color: #3e4545;
+}
+
+div.title_area {
+    border-bottom: 1px solid #ddc;
+    margin-bottom: 10px;
+}
+
+table.title_area {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.title, .subtitle, .copyright {
+    line-height: normal;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 24pt;
+ }
+
+.yellowbox, .message, .error_message {
+    background-color: #ffc;
+    border: 1px solid #999;
+    padding: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.message, .error_message {
+    font-size: 80%;
+}
+.message {
+    color: #055;
+}
+
+.error_message {
+    color: #900;
+}
+
+.copyright {
+    margin: 0;
+    text-align: right;
+    font-size: 11px;
+    color: #3E4545;
+
+}
+
+.footer {
+    margin-top: 10px;
+    border-top: 1px solid #3E4545;
+}
+
+/* results */
+
+table.results {
+    border-collapse: collapse;
+    width:100%;
+}
+
+td.column_head, td.cell_value {
+    font-size: 80%;
+    padding: 0 3px 0 3px;
+    border: 1px solid #ccc;
+}
+
+td.column_head {
+    background-color: #dde;
+}
+
+td.cell_value {
+    background-color: #eed;
+}
+
+/* custom elements */
+div.site_content {
+    height:200px;
+    overflow:auto;
+}
+
+div.file_content {
+    height:256px;
+    overflow:auto;
+}
+
+div.queue_content {
+    height:200px;
+    overflow:auto;
+}
+
+p.clickable {
+        padding: 3px 10px;
+        font-size: 12px;
+        cursor: pointer;
+        *cursor: hand;
+}
+
+p.subheading, p.clickable  { display : inline; }
+
+figure {
+    display: inline-block;
+    /*border: 1px dotted gray;*/
+    margin: 20px; /* adjust as needed */
+}
+figure img {
+    vertical-align: top;
+}
+figure figcaption {
+    /*border: 1px dotted blue;*/
+    text-align: center;
+}
+
+/* === System Status === */ 
+div.SystemStatusIcon {
+border:1px solid white;
+border-radius:3px;
+}
+
+p.SystemStatusFaIcon {margin:0px;}
+p.SystemStatusFaIcon span {
+padding:0px;
+margin:0px;
+border:2px solid grey;
+border-top-right-radius:3px;
+border-top-left-radius:3px;
+}
+
+p.SystemStatusGreen {background-image:url('../admin/images/status_green.png');}
+p.SystemStatusRed {background-image:url('../admin/images/status_red.png');}
+p.SystemStatusYellow {background-image:url('../admin/images/status_yellow.png');}
+p.SystemStatusGrey {background-image:url('../admin/images/status_grey.png');}
+p.SystemStatusDefault {background-image:url('../admin/images/status_black.png');}
+
+
+p.SystemStatusGreen, p.SystemStatusRed, p.SystemStatusYellow , p.SystemStatusGrey, p.SystemStatusDefault {
+height:5px;
+margin-top:2px;
+border-bottom-right-radius:3px;
+border-bottom-left-radius: 3px;
+border-left:2px solid grey;
+border-bottom:2px solid grey;
+border-right:2px solid grey;
+}
+
+.btn-hover {
+    cursor: pointer;
+    background-color: #3E4545;
+    border: none;
+}
+
+.btn-hover:hover {
+    border-color: #fff;
+}
+
+.fa {
+    color: #fff;
+}
+

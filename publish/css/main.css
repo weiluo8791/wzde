@@ -1,0 +1,447 @@
+/*
+    css file for CoreData
+*/
+
+
+/* page structure */
+
+body {
+    margin-top: 0px;
+    background-color: #3E4545;
+}
+
+body { 
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 100%;
+    line-height: 130%;
+}
+
+form, input, textarea, .no-line-height {
+    margin: 0;
+    line-height: normal;
+}
+
+a {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #330033;
+    background-color: inherit;
+}
+
+a:hover {
+    color: #993333;
+    text-decoration: none;
+}
+
+.serif {
+    font-family: georgia, serif;
+}
+
+.small, .smallred {
+    font-family: tahoma, verdana, sans-serif;
+    font-size: 10px;
+    line-height: normal;
+}
+
+.red, .smallred {
+    color: #990000;
+}
+
+.plain {
+    font-weight: normal;
+    color: #3E4545;
+    background-color:
+    transparent;
+}
+
+h1, .heading {
+    font-weight: bold;
+    color: #3E4545;
+    font-size: 24px;
+    line-height: 130%;
+}
+
+h2, .subheading {
+    font-weight: bold;
+    color: #3E4545;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 1.2ex;
+    margin-bottom: 1ex;
+    line-height: 114%;
+}
+
+h3, .subsub {
+    font-weight: bold;
+    color: #3E4545;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.tt {
+    font-family: monaco, courier, monospace;
+}
+
+tt, code {
+    font-family: monaco, courier, monospace;
+    font-size: 13px;
+}
+
+pre {
+    font-family: monaco, courier, monospace;
+    font-size: 11px;
+    line-height: normal;
+}
+
+.code {
+    font-family: monaco, courier, monospace;
+    font-size: 11px;
+    line-height: normal;
+    border: 1px solid #ccc;
+    padding: 3 5 3 5;
+}
+
+/* common elements */
+
+div.form, div.content, div.site_content, div.file_content, div.queue_content, div.main_content {
+    margin-top: 10px;
+    padding: 3px 9px 5px 10px;
+    background-color: #fff;
+    
+}
+
+div.main_content {  /* ATWEB-7956 */
+    height: 85%;
+}
+
+
+p.prompt {
+    margin: 0;
+}
+
+textarea.SQLField {
+    border: 1px solid #ccc;
+    width: 100%;
+    height: 92pt;
+}
+
+.SQLField {
+    margin: 0;
+}
+
+.go_button {
+    margin: 3px 0 0px 0;
+    text-align: center;
+}
+
+div.title_area {
+    border-bottom: 1px solid #ddc;
+    margin-bottom: 10px;
+}
+
+table.title_area {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.title, .subtitle, .copyright {
+    line-height: normal;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 24pt;
+ }
+
+.yellowbox, .message, .error_message {
+    background-color: #ffc;
+    border: 1px solid #999;
+    padding: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.message, .error_message {
+    font-size: 80%;
+}
+.message {
+    color: #055;
+}
+
+.error_message {
+    color: #900;
+}
+
+.copyright {
+    margin: 0;
+    text-align: right;
+    font-size: 11px;
+}
+
+.footer {
+    margin-top: 10px;
+    border-top: 1px solid #eed;
+}
+
+/* results */
+
+table.results {
+    border-collapse: collapse;
+    width:100%;
+}
+
+td.column_head, td.cell_value {
+    font-size: 80%;
+    padding: 0 3px 0 3px;
+    border: 1px solid #ccc;
+}
+
+td.column_head {
+    background-color: #dde;
+}
+
+td.cell_value {
+    background-color: #eed;
+}
+
+/* custom elements */
+div.site_content {
+    height:200px;
+    overflow:auto;
+}
+
+div.file_content {
+    height:300px;
+    overflow:auto;
+}
+
+div.queue_content {
+    height:205px;
+    overflow:auto;
+}
+
+p.clickable {
+        padding: 3px 10px;
+        font-size: 12px;
+        cursor: pointer;
+        *cursor: hand;
+}
+
+p.subheading, p.clickable  { display : inline; }
+
+#wzdeSiteTable > tbody > tr > td.commitWholeButton > button > img {
+	width:20px;
+	height:20px;
+    display: inline-block;
+	/* background-image:url("../images/wzde_action.png");
+    background-repeat:no-repeat;
+	background-position:-50px 0;
+    background-size : 40% 40%; */
+}
+
+#wzdeSiteTable > tbody > tr > td.publishWholeButton > button > img {
+	width:20px;
+	height:20px;
+    display: inline-block;
+	/* background-image:url("../images/wzde_action.png");
+    background-repeat:no-repeat;
+	background-position:-50px 0;
+    background-size : 40% 40%; */
+}
+
+#wzdeSiteTable > tbody > tr > td.manageSiteButton > button > img {
+	width:20px;
+	height:20px;
+    display: inline-block;
+	/* background-image:url("../images/wzde_action.png");
+    background-repeat:no-repeat;
+	background-position:-50px 0;
+    background-size : 40% 40%; */
+}
+
+#wzdeSiteTable > tbody > tr > td.stageButton > button > img {
+	width:20px;
+	height:20px;
+    display: inline-block;
+	/* background-image:url("../images/wzde_action.png");
+    background-repeat:no-repeat;
+	background-position:-50px 0;
+    background-size : 40% 40%; */
+}
+
+#commit_queue > img {
+	width:20px;
+	height:20px;
+    display: inline-block;
+}
+
+#publish_queue > img {
+	width:20px;
+	height:20px;
+    display: inline-block;
+}
+
+#publish_clear > img {
+	width:20px;
+	height:20px;
+    display: inline-block;
+}
+
+.ui-tooltip {
+    padding: 5px 10px;
+    color: white;
+    border-radius: 20px;
+    font: bold 14px "Helvetica Neue", Sans-Serif;
+    box-shadow: 0 0 7px black;
+}
+
+/* select with CSS avatar icons */
+option.avatar {
+  background-repeat: no-repeat !important;
+  padding-left: 20px;
+}
+
+.avatar .ui-icon {
+    width:20px;
+	height:20px;
+    background-position: left top;
+}
+
+.ui-widget {
+    font-family: tahoma, verdana, sans-serif !important;
+    font-size: 12px !important;
+}
+
+.ui-selectmenu-button span.ui-selectmenu-text {
+	padding: 0 !important;
+}
+
+.wzdeButton {
+	/*-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;  
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;*/ /* dfeeney commented out the box shadow on 5/18/15*/
+	background-color:buttonface;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	border:1px solid #c9c9c9;
+	display:inline-block;
+	color:buttontext;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:2px 20px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+    margin: 1px;
+}
+
+.wzdeButton:hover {
+	background-color:#e9e9e9;
+}
+
+.wzdeButton:active {
+	position:relative;
+	top:1px;
+}
+
+img.disable {
+    opacity: 0.2;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
+/* ATWEB-7624 */
+.blockMsg {
+    font-family: Verdana;
+    font-size: 14px;
+    font-weight: normal;
+    color: #3e4545;
+    padding: 20px 10px !important;
+    border: none;
+    border-radius: 5px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.blockMsg input[type="button"] {
+    background: #20558a;
+    border: 1px solid #20558a;
+    border-radius: 5px;
+    color: #f2f2f2;
+    padding: 5px 15px;
+}
+
+.blockMsg input[value="Cancel"], .blockMsg input[value="Close"] {
+    background: #f2f2f2;
+    border: 1px solid #20558a;
+    color: #3e4545;
+
+}
+
+.blockMsg input[type="button"]:hover {
+    cursor: pointer;
+    background-color: #198CFF;
+    color: #f2f2f2;
+}
+
+.blockMsg-hr {
+    border-color: #fff;
+    margin-top: 25px;
+}
+
+/*ATWEB-7956 by kdoricent | style wzde publish down page*/
+.zonelist { 
+	list-style-type: none;
+	padding: 0px 0px 8px 10px;
+}
+
+.zonelist a {
+	text-decoration:none;
+	border-bottom: 1px solid transparent;
+	color: #20558a;
+}
+
+.zonelist a:hover {
+	border-bottom: 1px solid #3e4545;
+	color: #198cff;
+}
+
+
+/*ATWEB-8247 by WLUO - Add waiting indicator */
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, 0) 
+                url('../images/iconAjaxLoader2.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .modal {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}

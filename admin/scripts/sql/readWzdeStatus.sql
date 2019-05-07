@@ -1,0 +1,1 @@
+SELECT zone,status FROM webutility.wzde_admin;

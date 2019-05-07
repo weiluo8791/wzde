@@ -1,0 +1,1 @@
+update webutility.wzde_files set checksum = :checksum where path = :path and filename = :filename;

@@ -1,0 +1,1 @@
+update webutility.wzde_admin set status = :status where zone =:zone;

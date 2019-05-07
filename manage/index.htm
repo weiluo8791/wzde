@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WZDE Manage</title>
+
+<!-- Main CSS -->  
+<link rel="STYLESHEET" TYPE="text/css" HREF="css/main.css">
+
+<!-- jQuery and jQuery UI (REQUIRED)
+<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script> -->
+
+<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+<!-- elFinder CSS (REQUIRED) -->
+<link rel="stylesheet" type="text/css" href="css/elfinder.full.css">
+<link rel="stylesheet" type="text/css" href="css/theme.css">
+
+<!-- elFinder JS (REQUIRED) -->
+<script src="js/elfinder.full.js"></script>
+
+<!-- custom command JS -->
+<script src="js/customLaunch.js"></script>
+
+<!-- custom command JS
+<script src="js/customQueue.js"></script> 
+-->
+
+<!-- custom tools JS -->
+<script src="js/customTools.js"></script>
+
+<!-- elFinder initialization (REQUIRED) -->
+<script type="text/javascript" charset="utf-8">
+
+
+// Documentation for client options:
+// https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+$(document).ready(function () {
+    elFinder.prototype.i18.en.messages['cmdlaunch'] = 'Launch Site';
+    elFinder.prototype._options.commands.push('launch');
+    //elFinder.prototype.i18.en.messages['cmdqueue'] = 'Add to Publish';
+    //elFinder.prototype._options.commands.push('queue');
+
+    var elf = $('#elfinder').elfinder({
+            //option
+            url : 'php/connector.minimal.php', // connector URL (REQUIRED)
+            height : 600,
+            handlers : {
+                //select : function(event, instance) {
+                //called on file(s) select/unselect
+                //var selected = event.data.selected;
+                //if (selected.length) {
+                //console.log(instance.file(selected[0]))
+                //}
+                //},
+                open : function (event) {
+                    //on folder open
+                    //console.log(event.data);
+                },
+                add : function (event, instance) {
+                    //called when file(s) added (remove,select,add,select)
+                    var added = event.data.added;
+                    
+                    if (added.length) {
+                        //GET idsites from sitename
+                        var site = event.data.added[0].phash;                        
+                        zone = site.substring(0, site.indexOf('_')) + "_XA";
+                        zone = instance.file(zone).name;                                             
+                        site = decode64(site.substring(site.indexOf("_") + 1));
+                        site = site.substring(0, site.indexOf('\\')<0 ? site.length : site.indexOf('\\'));
+        
+                        var query = "SELECT idsites FROM webutility.sites where sitename = :sitename";
+                        var bindV = {"sitename" : site};
+                        var queryDataJson = $.parseJSON(
+                                $.ajax({
+                                    url : "./php/mariadb_query.php",
+                                    data : {
+                                        query : query,
+                                        bindV : JSON.stringify(bindV),
+                                        multi : false
+                                    },
+                                    async : false,
+                                    dataType : 'json'
+                                }).responseText);                                    
+                        
+                        //POST file(s) into table
+                        for (i in added) {                        
+                            var date = new Date(instance.file(added[i].hash).ts * 1000),
+                                file = event.data.added[i].name,
+                                type = event.data.added[i].mime,
+                                hash = event.data.added[i].hash,
+                                //decode path from hash
+                                path = decode64(hash.substring(hash.indexOf("_") + 1));
+                                //strip filename for path
+                                path = zone.toLowerCase() + "\\" + path.substring(0, path.lastIndexOf("\\"));
+                                //convert timestamp to current time (GMT)
+                                date = date.toISO8601String(5);
+                            query = "INSERT into webutility.wzde_files (idsites,zone,site,path,filename,type,hash,status,creationdate,publishdate) VALUES (:idsites,:zone,:site,:path,:filename,:type,:hash,:status,:creationdate,:publishdate)";
+                            bindV = {
+                                'idsites' : queryDataJson.idsites,
+                                'zone' : zone.toLowerCase(),
+                                'site' : site,
+                                //replace backslash with forward slash
+                                'path' : path.replace(/\\/g,"/"),
+                                'filename' : file,
+                                'type' : type,
+                                'hash' : hash,
+                                'status' : "draft",
+                                'creationdate' : date,
+                                'publishdate' : null
+                            };
+                                                        
+                            $.ajax({
+                                type: "POST",
+                                url : "./php/mariadb_query.php",
+                                data : {
+                                    query : query,
+                                    bindV : JSON.stringify(bindV)
+                                },
+                                async : false,
+                                dataType : 'json'
+                            });                                                        
+                        }
+                    }
+                },
+                dblclick : function (event, instance) {
+                    event.preventDefault();
+                    instance.exec('getfile')
+                    .done(function () {
+                        instance.exec('quicklook');
+                    })
+                    .fail(function () {
+                        instance.exec('open');
+                    });
+                },
+                upload : function (event, instance) {
+                    var uploadedFiles = event.data.added,
+                    archives = ['application/zip',
+                        'application/x-gzip',
+                        'application/x-tar',
+                        'application/x-bzip2',
+                        'application/x-7z-compressed'];
+
+                    for (i in uploadedFiles) {
+                        var file = uploadedFiles[i];
+                        if ($.inArray(file.mime, archives) >= 0) {
+                            event.preventDefault();
+                            instance.exec('extract', file.hash);
+                        }
+                    }
+                },
+                extract : function (event, instance) {
+                    console.log(event.data);
+                },
+                remove : function (event, instance) {
+                    //called when file(s) removed (select,remove,select)
+                    var removed = event.data.removed;
+                    if (removed.length) {                       
+                        //POST/delete file(s) from table
+                        for (i in removed) {                            
+                            //if file is published queue the delete
+                            var query = "select path,filename,type,'del'as ops from webutility.wzde_files where hash=:hash and status='PUBLISHED'";
+                            var bindV = {"hash" : removed[i]};
+                            var queryDataJson = $.parseJSON(
+                                    $.ajax({
+                                        url : "./php/mariadb_query.php",
+                                        data : {
+                                            query : query,
+                                            bindV : JSON.stringify(bindV),
+                                            multi : true
+                                        },
+                                        async : false,
+                                        dataType : 'json'
+                                    }).responseText);  
+                            //slice array into 50 chunk and queue up files
+                            var k,l,temparray,chunk = 50;
+                            for (k=0,l=queryDataJson.length; k<l; k+=chunk) {
+                                temparray = queryDataJson.slice(k,k+chunk);
+                                $.ajax({
+                                    type: 'POST',
+                                    crossDomain: true,
+                                    url : "http://lamp/wluo/php_Q/add_to_queue.php",
+                                    data : {
+                                        filelist : JSON.stringify(temparray),
+                                    }
+                                })
+                                .done(function () {
+                                    //alert('added');
+                                })
+                                .fail(function (jqxhr, textStatus, error) {
+                                    //do thing when fail
+                                    var err = textStatus + ', ' + error;
+                                    console.log("Request Failed: " + err);
+                                });
+                            } //end for                            
+                            
+                            //deleted file from mariaDB
+                            var query = "delete from webutility.wzde_files where hash=:hash";                                                    
+                            var bindV = {'hash' : removed[i]};                            
+                            $.ajax({
+                                type: "POST",
+                                url : "./php/mariadb_query.php",
+                                data : {
+                                    query : query,
+                                    bindV : JSON.stringify(bindV)
+                                },
+                                async : false,
+                                dataType : 'json'
+                            });                            
+                        }
+                    }                    
+                }
+            },
+            commandsOptions : {
+                quicklook : {
+                    width : 640,
+                    height : 480
+                }
+            },
+            getFileCallback : function (files, fm) {
+                return false;
+            },
+            uiOptions : {
+                // toolbar configuration
+                toolbar : [
+                    ['back', 'forward'],
+                    // ['reload'],
+                    // ['home', 'up'],
+                    ['mkdir', 'mkfile', 'upload'],
+                    ['open', 'download', 'getfile'],
+                    ['info'],
+                    //['quicklook', 'launch','queue'],
+                    ['quicklook', 'launch'],
+                    ['copy', 'cut', 'paste'],
+                    ['rm'],
+                    ['duplicate', 'rename', 'edit', 'resize'],
+                    ['extract', 'archive'],
+                    ['search'],
+                    ['view'],
+                    ['help']
+                ],
+
+                // directories tree options
+                tree : {
+                    // expand current root on init
+                    openRootOnLoad : true,
+                    // auto load current dir parents
+                    syncTree : true
+                },
+
+                // navbar options
+                navbar : {
+                    minWidth : 150,
+                    maxWidth : 500
+                },
+
+                // current working directory options
+                cwd : {
+                    // display parent directory in listing as ".."
+                    oldSchool : false
+                }
+            },
+            commands : [
+                'open', 'reload', 'home', 'up', 'back', 'forward', 'getfile', 'quicklook',
+                'download', 'rm', 'duplicate', 'rename', 'mkdir', 'mkfile', 'upload', 'copy',
+                'cut', 'paste', 'edit', 'extract', 'archive', 'search', 'info', 'view', 'help',
+                //'resize', 'sort', 'launch','queue'
+                'resize', 'sort', 'launch'
+            ],
+            contextmenu : {
+                // navbarfolder menu (rigt click any item on left panel)
+                navbar : ['open', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'info', 'launch','queue'],
+
+                // current directory menu (right click empty space on right panel)
+                cwd : ['reload', 'back', '|', 'upload', 'mkdir', 'mkfile', 'paste', '|', 'info'],
+
+                // current directory file menu (right click any item on right panel)
+                files : [
+                    'getfile', '|', 'open', 'quicklook', '|', 'download', '|', 'copy', 'cut', 'paste', 'duplicate', '|',
+                    //'rm', '|', 'edit', 'rename', 'resize', '|', 'archive', 'extract', '|', 'info','launch','queue'
+                    'rm', '|', 'edit', 'rename', 'resize', '|', 'archive', 'extract', '|', 'info','launch'
+                ]
+            },
+            //defaultView : 'list',
+
+        }).elfinder('instance');
+});
+
+</script>
+</head>
+<body>
+
+<!-- Header Element -->
+<div class="title_area">
+    <table class="title_area"><tr>
+    <td class="title"><p class="title">WZDE Manage</p></td>
+    <td class="subtitle"><p class="subtitle">
+        Web Zone Development Environment (WZDE)<br />
+        Advanced Technology Web
+    </p></td>
+    </tr></table>
+</div>
+
+<!-- Element where elFinder will be created (REQUIRED) -->
+<div id="elfinder"></div>
+
+<!-- Footer Element -->
+<div class="footer">
+<p class="copyright">Version 1.0<br></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+select count(*) total from webutility.wzde_files where path = :path and filename = :filename and checksum = :checksum ;
